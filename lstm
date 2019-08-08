@@ -113,7 +113,7 @@ model.summary()
 
 # %%
 # Set up some params
-epochs = 100  # number of epochs to train on
+epochs = 1  # number of epochs to train on
 batch_size = 1024  # training batch size default1024
 # %%
 filepath = "convmodrecnets_%s_0.5.wts.h5" % (name)  # 所要保存的文件名字，h5格式，不用写路径，默认在程序执行的文件夹内
@@ -209,7 +209,7 @@ for i in range(0, X_test.shape[0]):
     conf[j, k] += 1
 for i in range(0, len(classes)):
     confnorm[i, :] = conf[i, :] / np.sum(conf[i, :])
-sc.plotCM(confnorm, labels=classes, title='%s Confusion matrix' % (name))
+sc.plotCM(confnorm, classes=classes, normalize=True, title='%s Confusion matrix' % (name))
 
 # %%Plot confusion matrix 画图
 acc = {}
@@ -244,13 +244,13 @@ for snr in snrs:
     # plt.figure()
     sc.plotCM(cnf_matrix, classes=classes,
                                  normalize=False,
-                                 title='%s Confusion matrix, without normalization (SNR=%d)' % (name, snr), showtext=True)
+                                 title='%s Confusion matrix, without normalization (SNR=%d)' % (name, snr))
     plt.savefig('%s Confusion matrix, without normalization (SNR=%d)' % (name, snr))
     # Plot normalized confusion matrix
     # plt.figure()
     sc.plotCM(cnf_matrix, classes=classes,
                                  normalize=True,
-                                 title='%s Normalized confusion matrix (SNR=%d)' % (name, snr), showtext=True)
+                                 title='%s Normalized confusion matrix (SNR=%d)' % (name, snr))
     plt.savefig('%s Normalized confusion matrix (SNR=%d)' % (name, snr))
     # plt.show()
 
@@ -264,7 +264,7 @@ for snr in snrs:
     for i in range(0, len(classes)):
         confnorm[i, :] = conf[i, :] / np.sum(conf[i, :])
     # plt.figure()
-    sc.plotCM(confnorm, labels=classes, title="%s Confusion Matrix (SNR=%d)" % (name, snr))
+    sc.plotCM(confnorm,  classes=classes, normalize=True, title="%s Confusion Matrix (SNR=%d)" % (name, snr))
 
     cor = np.sum(np.diag(conf))
     ncor = np.sum(conf) - cor
